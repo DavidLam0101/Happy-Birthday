@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday :v</title>
+<style>
+    body {
+        margin: 0;
+        overflow: hidden;
+        background: black;
+        font-family: 'DynaPuff', cursive;
+    }
+    canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+    .flower {
+        position: absolute;
+        width: 60px;
+        height: 60px;
+        animation: growRotate 3s linear forwards;
+        filter: drop-shadow(0 0 6px rgb(210, 98, 255));
+    }
+    @keyframes growRotate {
+        0% { transform: scale(0.3) rotate(0deg); opacity: 0.8; }
+        100% { transform: scale(1.2) rotate(360deg); opacity: 1; }
+    }
+    .message {
+        width: 100%;
+        text-align: center;
+        font-size: 3em;
+        color: rgb(253, 123, 203);
+        text-shadow: 0 0 10px rgb(245, 162, 220), 0 0 20px pink;
+    }
+    .poem1, .poem2{
+        width: 100%;
+        text-align: center;
+        font-size: 1.2em;
+        color: pink;
+        text-shadow: 0 0 10px white, 0 0 20px pink;
+    }
+    .next-btn {
+        display: block;
+        margin: 20px auto;
+        padding: 10px 20px;
+        font-size: 1.2em;
+        border: none;
+        border-radius: 10px;
+        background-color: pink;
+        color: white;
+        cursor: pointer;
+    }
+    .container{
+      width: 100%;
+      position: absolute;
+      top:10%;
+      align-items: center;
+      text-align: center;
+      padding: 20px;
+    }
+</style>
+<link href="https://fonts.googleapis.com/css2?family=DynaPuff&display=swap" rel="stylesheet">
+</head>
+<body>
+<canvas id="stars"></canvas>
+<div class="container">
+<img src="cat-birthday.gif">
+<h1 class="message">Happy Birthday, Beautiful</h1>
+<h4 class="poem1">You're a masterpiece in a museum that I kept for myself, a vision I could gaze upon for eternity.</h4>
+<h4 class="poem2">I could spend lifetimes sketching your beauty, yet I can't fully describe how much it is.</h4>
+<button class="next-btn" onclick="location.href='second.html'">Next diiiiiiiii</button>
+</div>
+<script>
+const canvas = document.getElementById('stars');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+const stars = Array.from({length: 100}, () => ({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    size: Math.random() * 2,
+    speed: Math.random() * 0.5
+}));
+
+function drawStars() {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle = 'white';
+    stars.forEach(star => {
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.size, 0, Math.PI*2);
+        ctx.fill();
+        star.y += star.speed;
+        if (star.y > canvas.height) star.y = 0;
+    });
+}
+
+function createFlower() {
+    const flower = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    flower.setAttribute("class", "flower");
+    flower.setAttribute("viewBox", "0 0 100 100");
+
+    const colors = ['red','pink','purple','blue'];
+    const color = colors[Math.floor(Math.random()*colors.length)];
+
+    // Create petals
+    for (let i = 0; i < 6; i++) {
+        const petal = document.createElementNS("http://www.w3.org/2000/svg", "ellipse");
+        petal.setAttribute("cx", "50");
+        petal.setAttribute("cy", "20");
+        petal.setAttribute("rx", "10");
+        petal.setAttribute("ry", "20");
+        petal.setAttribute("fill", color);
+        petal.setAttribute("transform", `rotate(${i * 60}, 50, 50)`);
+        flower.appendChild(petal);
+    }
+
+    // Center
+    const center = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    center.setAttribute("cx", "50");
+    center.setAttribute("cy", "50");
+    center.setAttribute("r", "10");
+    center.setAttribute("fill", "yellow");
+    flower.appendChild(center);
+
+    flower.style.left = Math.random()*window.innerWidth + 'px';
+    flower.style.top = Math.random()*window.innerHeight + 'px';
+
+    document.body.appendChild(flower);
+    setTimeout(() => flower.remove(), (Math.random()*1000 +2500));
+}
+
+setInterval(drawStars, 30);
+setInterval(createFlower, 500);
+</script>
+</body>
+</html>
